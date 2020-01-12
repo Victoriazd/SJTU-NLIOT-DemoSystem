@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.head {font-size: 30px;color: #000000; display : inline; vertical-align:middle;}
+
+.global-search-wrapper {
+  padding-right: 50px;
+}
+
+.global-search {
+  width: 100%;
+}
+
+.global-search.ant-select-auto-complete .ant-select-selection--single {
+  margin-right: -46px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input:not(:last-child) {
+  padding-right: 62px;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix {
+  right: 0;
+}
+
+.global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input-suffix button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.global-search-item {
+  display: flex;
+}
+
+.global-search-item-desc {
+  flex: auto;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.global-search-item-count {
+  flex: none;
+}
+
+.pad{
+  padding:20px 10px 20px;
+  height: 100%;
+}
+
+.layout{
+  height: 100vh;
+}
+
+.title{
+  color: azure;
+  font-size:30px
+}
