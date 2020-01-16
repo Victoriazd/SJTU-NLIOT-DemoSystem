@@ -2,15 +2,15 @@ body {
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  monospace;
 }
 
 .head {font-size: 30px;color: #000000; display : inline; vertical-align:middle;}
@@ -55,15 +55,49 @@ code {
 }
 
 .pad{
-  padding:20px 10px 20px;
+  padding:100px 50px 100px;
   height: 100%;
-}
-
-.layout{
-  height: 100vh;
 }
 
 .title{
   color: azure;
-  font-size:30px
+  font-size:26px;
+  line-height: 48px;
 }
+.logo{
+  /* background: dodgerblue; */
+  height: 50px;
+}
+.sidebar{
+  height: 1000px;
+}
+.search{
+  margin: auto;
+  margin-top: 240px;
+  width: 600px;
+}
+
+.search-btn{
+  width:70px;
+  inset-inline: 11px;
+}
+
+.menu1{
+  width: 200px;
+  marginTop: 2px;
+}
+
+.text{
+  background: dodgerblue;
+  margin: 200px;
+  margin-left: 400px;
+  width:80px;
+  height:200px;
+  font-size:16px;
+  color: #fff;
+}
+
+.card{
+  font-size:16px;
+}
+

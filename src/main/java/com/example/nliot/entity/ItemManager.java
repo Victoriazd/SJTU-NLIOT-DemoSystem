@@ -11,11 +11,11 @@ public class ItemManager {
     @Property
     private  Long id;
 
-    @Property(name = "物管理器别名")
+    @Property(name = "物关名")
     private String name;
-    @Property(name = "物管理器地址")
-    private String address;
-    @Property(name = "ip")
+    @Property(name = "别名")
+    private String anothername;
+    @Property(name = "通信地址")
     private String ip;
 
     public ItemManager() {
@@ -38,6 +38,14 @@ public class ItemManager {
         this.name = name;
     }
 
+    public String getAnothername() {
+        return anothername;
+    }
+
+    public void setAnothername(String name) {
+        this.anothername = anothername;
+    }
+
 
     public String getIp() {
         return ip;
@@ -47,11 +55,4 @@ public class ItemManager {
         this.ip = ip;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
