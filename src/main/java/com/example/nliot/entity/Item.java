@@ -55,7 +55,7 @@ public class Item {
         return url;
     }
 
-    public void setUrl(String address) {
+    public void setUrl(String url) {
         this.url = url;
     }
 

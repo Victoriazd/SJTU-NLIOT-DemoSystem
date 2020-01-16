@@ -57,14 +57,16 @@ public class WebsocketEndpoint {
         logger.info(String.format("Server Get Message From %s: " + message, id));
         //收到注册（登录请求），在数据表中进行添加
         JSONObject jsonObject = JSON.parseObject(message);
-        String Addr = jsonObject.getString("物功能表地址");
-        String Name = jsonObject.getString("物设备名");
-        if(Addr != null && Name != null && (!Addr.equals("")) && (!Name.equals(""))){
+        String Addr = jsonObject.getString("物功能表");
+        String Name = jsonObject.getString("物名");
+        String Type = jsonObject.getString("物类型");
+        if(Addr != null && Name != null && Type != null && (!Addr.equals("")) && (!Name.equals("")) && (!Type.equals(""))){
             //符合规定的信息
             Item item = new Item();
             item.setName(Name);
-            item.setAddress(Constants.physicalAddress);
-            item.setIp(Addr);
+            item.setManagerName(Constants.physicalAddress);
+            item.setUrl(Addr);
+            item.setType(Type);
             ItemService service = applicationContext.getBean(ItemService.class);
             service.addItemNode(item);
         }
