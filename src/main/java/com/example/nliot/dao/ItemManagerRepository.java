@@ -21,10 +21,10 @@ public interface ItemManagerRepository extends GraphRepository<ItemManager> {
     @Query("MATCH (n:物管理器) Where n.物管理器别名 = {name} RETURN n ")
     ItemManager getItemNodeByName(@Param("name") String name);
 
-    @Query("MATCH (n:物管理器)-[r:上级]->(m:物管理器) Where m.物管理器别名 = {name} RETURN n ")
+    @Query("MATCH (n:物关)-[r:上级]->(m:物关) Where m.物关名 = {name} or n.别名 = {name} RETURN n ")
     List<ItemManager> getChildItemManagerNodeByName(@Param("name") String name);
 
-    @Query("MATCH (n:物设备)-[r:部署]->(m:物管理器) Where m.物管理器别名 = {name} RETURN n ")
+    @Query("MATCH (t:物设备)-[r:挂载]->(n:物关) Where n.物关名 = {name} or n.别名 = {name} RETURN t ")
     List<Item> getChildItemNodeByName(@Param("name") String name);
 
     @Query("Match (n:物管理器) Where n.物管理器别名 = {name} Delete n ")

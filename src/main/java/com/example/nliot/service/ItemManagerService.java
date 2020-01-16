@@ -24,7 +24,7 @@ public class ItemManagerService {
     }
 
     public void addItemManagerNode(ItemManager item){
-        itemManagerRepository.addItemNode(item.getName(),item.getAddress(),item.getIp());
+        itemManagerRepository.addItemNode(item.getName(),item.getAnothername(),item.getIp());
     }
 
 

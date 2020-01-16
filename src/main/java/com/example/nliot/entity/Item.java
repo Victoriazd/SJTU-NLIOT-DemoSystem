@@ -13,12 +13,14 @@ public class Item {
     @Property
     private  Long id;
 
-    @Property(name = "物设备名")
+    @Property(name = "物名")
     private String name;
-    @Property(name = "物设备地址")
-    private String address;
-    @Property(name = "ip")
-    private String ip;
+    @Property(name = "物类型")
+    private String type;
+    @Property(name = "物功能表")
+    private String url;
+    @Property(name = "上级物关名")
+    private String managerName;
 
     public Item() {
     }
@@ -41,19 +43,27 @@ public class Item {
     }
 
 
-    public String getIp() {
-        return ip;
+    public String getType() {
+        return type;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getAddress() {
-        return address;
+    public String getUrl() {
+        return url;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setUrl(String address) {
+        this.url = url;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 }

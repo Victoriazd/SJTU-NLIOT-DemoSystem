@@ -37,8 +37,8 @@ public class ItemController {
     public String addUserNode() {
         Item item = new Item();
         item.setName("testName");
-        item.setAddress("testAddress");
-        item.setIp("testIp");
+        item.setType("testType");
+        item.setUrl("testURL");
         testService.addItemNode(item);
         return "ok";
     }
