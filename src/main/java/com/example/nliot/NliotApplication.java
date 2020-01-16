@@ -1,7 +1,9 @@
 package com.example.nliot;
 
+import com.example.nliot.controller.WebsocketEndpoint;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,7 +16,8 @@ import org.springframework.web.filter.CorsFilter;
 public class NliotApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NliotApplication.class, args);
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(NliotApplication.class, args);
+        WebsocketEndpoint.setApplicationContext(applicationContext);
     }
 
     private CorsConfiguration buildConfig() {
