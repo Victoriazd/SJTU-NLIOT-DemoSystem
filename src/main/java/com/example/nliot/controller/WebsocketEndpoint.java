@@ -68,6 +68,7 @@ public class WebsocketEndpoint {
             item.setUrl(Addr);
             item.setType(Type);
             ItemService service = applicationContext.getBean(ItemService.class);
+            service.deleteItemNode(Name);
             service.addItemNode(item);
         }
         else {
