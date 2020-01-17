@@ -8,6 +8,16 @@ public class SessionEntity {
     private Session session;
     private String id;
 
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    private String deviceName;
+
     public SessionEntity(Session se, String id){
         this.session = se;
         this.id = id;

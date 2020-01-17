@@ -49,7 +49,7 @@ public class WebsocketEndpoint {
         sessionMap.remove(id);
         //连接关闭，在数据表中进行删除
         ItemService service = applicationContext.getBean(ItemService.class);
-        service.deleteItemNode(id);
+        service.deleteItemNode(sessionMap.get(id).getDeviceName());
     }
 
     @OnMessage
@@ -60,6 +60,7 @@ public class WebsocketEndpoint {
         String Addr = jsonObject.getString("物功能表");
         String Name = jsonObject.getString("物名");
         String Type = jsonObject.getString("物类型");
+        sessionMap.get(id).setDeviceName(Name);
         if(Addr != null && Name != null && Type != null && (!Addr.equals("")) && (!Name.equals("")) && (!Type.equals(""))){
             //符合规定的信息
             Item item = new Item();
