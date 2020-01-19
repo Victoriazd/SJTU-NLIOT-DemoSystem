@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 public class ItemController {
 
-    private final ItemService testService;
+    private static ItemService testService;
 
     @Autowired
     public ItemController(ItemService testService) {
@@ -56,6 +56,16 @@ public class ItemController {
     }
 
 
+    //functions
+    //get all item
+    public static List<Item> MQTTgetAllItemNode() {
+        return testService.getItemNodeList();
+    }
+
+    //get one item
+    public static Item MQTTgetOneItemNode(String name) {
+        return testService.getItemNodeByName(name);
+    }
 
 
 

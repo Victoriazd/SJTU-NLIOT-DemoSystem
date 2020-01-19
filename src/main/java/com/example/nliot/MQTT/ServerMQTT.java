@@ -1,5 +1,6 @@
 package com.example.nliot.MQTT;
 
+import com.example.nliot.Constants;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
@@ -12,9 +13,9 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class ServerMQTT {
     //tcp://MQTT安装的服务器地址:MQTT定义的端口号
-    public static final String HOST = "tcp://0.0.0.0:61613";
+    public static final String HOST = Constants.mqttUrl;
     //定义MQTT的ID，可以在MQTT服务配置中指定
-    private static final String clientid = "server11";
+    private static final String clientid = Constants.tempServerName;
 
     private MqttClient client;
     private MqttTopic mqttTopic;
@@ -62,7 +63,7 @@ public class ServerMQTT {
             MqttException, InterruptedException {
         MqttDeliveryToken token = mqttTopic.publish(message);
         token.waitForCompletion();
-        System.out.println("message is published completely! "
+        System.out.println("serverMqtt message is published completely! "
                 + token.isComplete());
 //        System.out.println("messageId:" + token.getMessageId());
 //        token.getResponse();
