@@ -27,7 +27,7 @@ public interface ItemManagerRepository extends GraphRepository<ItemManager> {
     @Query("MATCH (n:物设备) RETURN n ")
     List<Item> getChildItemNodeByName(@Param("name") String name);
 
-    @Query("Match (n:物管理器) Where n.物管理器别名 = {name} Delete n ")
+    @Query("Match (n:物关) Where n.别名 = {name} or n.物关名 = {name} Delete n ")
     Void deleteItemNode(@Param("name") String name);
 
 
