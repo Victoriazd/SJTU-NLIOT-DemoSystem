@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 public class ItemManagerController {
-    private final ItemManagerService testManagerService;
+    private static ItemManagerService testManagerService;
 
     @Autowired
     public ItemManagerController(ItemManagerService testManagerService) {
@@ -66,5 +66,18 @@ public class ItemManagerController {
         String res = json.toString();
         System.out.println("**********************"+res);
         return res;
+    }
+
+
+
+    //functions
+    //get all item managers
+    public static List<ItemManager> MQTTgetAllItemManagerNode() {
+        return testManagerService.getItemManagerNodeList();
+    }
+
+    //get one item manager
+    public static ItemManager MQTTgetOneItemManagerNode(String name) {
+        return testManagerService.getItemManagerNodeByName(name);
     }
 }

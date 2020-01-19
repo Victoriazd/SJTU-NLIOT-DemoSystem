@@ -8,17 +8,24 @@ import org.springframework.boot.jackson.JsonObjectDeserializer;
 import java.io.UnsupportedEncodingException;
 
 public class MQTTSubscribeService {
+    int timeout = 5;
+
     public String  getMessage(String topic) throws InterruptedException {
         ClientMQTT client = new ClientMQTT();
         client.start(topic);
-        String message = "111";
-        while (true){
-            if (message !=client.resc()){
+        String message;
+        int count = 0;
+        while (count < timeout){
+            if (client.resc() != null){
                 message = client.resc();
+                client.reinitResc();
+                System.out.println("print message: " + message);
                 return message;
             }
-            Thread.currentThread().sleep(1000);
+            count += 1;
+            Thread.sleep(1000);
         }
+        return "";
     }
     public static void main(String[] args) throws MqttException, UnsupportedEncodingException, InterruptedException {
         MQTTSubscribeService mqttSubscribeService = new MQTTSubscribeService();
@@ -28,13 +35,15 @@ public class MQTTSubscribeService {
         String contentType = json.getString("消息类型");
         String dataStr = json.getString("消息内容");
         JSONObject data = JSONObject.parseObject(dataStr);
-        if (contentType == "请求连接"){
-            String targetAddress = data.getString("目标地址");
-            mqttPublishService.sendMessage(targetAddress,json);
-        }
-        if (contentType == "反馈信息"){
+        if(contentType != null){
+            if (contentType.equals("请求连接")){
+                String targetAddress = data.getString("目标地址");
+                System.out.println("debug: code get here??????-----");
+                mqttPublishService.sendMessage(targetAddress,json);
+            }
+            if (contentType.equals("反馈信息")){
 
+            }
         }
-
     }
 }

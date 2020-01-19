@@ -1,6 +1,5 @@
 package com.example.nliot.MQTT;
 
-import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.example.nliot.Constants;
@@ -12,11 +11,10 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  * @author rao
  *
  */
-public class ClientMQTT {
-    public static String str = null;
-    public static final String HOST = Constants.mqttUrl;
+public class LiveClientMQTT {
+    public static final String HOST = "tcp://0.0.0.0:1883";
     public static final String TOPIC1 = "pos_message_all";
-    private static final String clientid = Constants.tempClientName;
+    private static final String clientid = Constants.physicalAddress;
     private MqttClient client;
     private MqttConnectOptions options;
     private String userName = "admin";    //非必须
@@ -40,31 +38,8 @@ public class ClientMQTT {
             // 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送个消息判断客户端是否在线，但这个方法并没有重连的机制
             options.setKeepAliveInterval(20);
             // 设置回调
-            client.setCallback(new PushCallback());
-            client.setCallback(new MqttCallback(){
-                public void connectionLost(Throwable cause) {
-//                 连接丢失后，一般在这里面进行重连
-                    System.out.println("clientMqtt 连接断开，可以做重连");
-                }
+            client.setCallback(new LiveClientCallBack());
 
-                public void deliveryComplete(IMqttDeliveryToken token) {
-                    System.out.println("clientMqtt deliveryComplete---------" + token.isComplete());
-                }
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    try {
-                        str = new String(message.getPayload());
-                        System.out.println("clientMqtt 接收消息主题 : " + topic);
-                        System.out.println("clientMqtt 接收消息Qos : " + message.getQos());
-                        System.out.println("clientMqtt 接收消息内容 : " + str);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                public void connectComplete(boolean reconnect, String serverURI) throws MqttException {
-                    //连接成功后调用
-                    client.subscribe(topic,1);//具体订阅代码
-                }
-            });
             MqttTopic topic2 = client.getTopic(TOPIC1);
 //      setWill方法，如果项目中需要知道客户端是否掉线可以调用该方法。设置最终端口的通知消息
 //      options.setWill(topic, "close".getBytes(), 2, true);  //遗嘱
@@ -77,13 +52,4 @@ public class ClientMQTT {
             e.printStackTrace();
         }
     }
-
-    public String resc() {
-        return str;
-    }
-
-    public void reinitResc() {
-        str = null;
-    }
-
 }

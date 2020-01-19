@@ -27,6 +27,7 @@ public class MQTTPublishService {
 
         ServerMQTT serverMQTT = new ServerMQTT(topic);
         serverMQTT.publish(mqttMessage);
+        System.out.println("serverMqtt send json: " + mqttMessage.toString());
         System.out.println(mqttMessage.isRetained() + "------ratained状态");
     }
 
@@ -35,11 +36,11 @@ public class MQTTPublishService {
         client.start(topic);
         String message = "111";
         while (true){
-            if (message !=client.resc()){
+            if (!message.equals(client.resc())){
                 message = client.resc();
                 return message;
             }
-            Thread.currentThread().sleep(1000);
+            Thread.sleep(1000);
         }
     }
 
@@ -47,8 +48,11 @@ public class MQTTPublishService {
         MQTTPublishService mqttService = new MQTTPublishService();
 
         Map<String, Object> data1 = new HashMap<String, Object>();
-        data1.put("111","111");
+        data1.put("消息类型","请求连接");
+        data1.put("消息内容","测试MQTT");
         JSONObject json1 = new JSONObject(data1);
+
+        System.out.println("debug: code get here??");
 
         mqttService.sendMessage("3503",json1);
 
