@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemManagerRepository extends GraphRepository<ItemManager> {
-    @Query("create (n:物管理器{物管理器别名:{name},物管理器地址:{address},ip:{ip}}) RETURN n ")
-    Void addItemNode(@Param("name") String name, @Param("address")String address, @Param("ip")String ip);
+    @Query("create (n:物关{别名:{anothername},物关名:{name},通信地址:{ip}}) RETURN n ")
+    Void addItemNode(@Param("anothername") String name, @Param("name")String address, @Param("ip")String ip);
 
-    @Query("MATCH (n:物管理器) RETURN n ")
+    @Query("MATCH (n:物关) RETURN n ")
     List<ItemManager> getItemNodeList();
 
-    @Query("MATCH (n:物管理器) Where n.物管理器别名 = {name} RETURN n ")
+    @Query("MATCH (n:物关) Where n.物关名 = {name} or n.别名 = {name} RETURN n ")
     ItemManager getItemNodeByName(@Param("name") String name);
 
     @Query("MATCH (n:物关)-[r:上级]->(m:物关) Where m.物关名 = {name} or n.别名 = {name} RETURN n ")
