@@ -69,16 +69,30 @@ public class LiveClientCallBack implements MqttCallback {
                 //判断是否是本物关下的节点
                 if(nodeName.contains(Constants.physicalAddress)){
                     //查询的节点名字包含当前物关名称，说明该节点在本物关下
+                    if(nodeName.equals(Constants.physicalAddress)){
+                        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点就是本物关节点");
+                        List<Item> itemList = ItemController.MQTTgetAllItemNode();
+                        List<ItemManager> itemManagerList = ItemManagerController.MQTTgetAllItemManagerNode();
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put("物设备",itemList);
+                        map.put("物关",itemManagerList);
+                        JSONObject result = new JSONObject(map);
+                        MQTTController.sendDebugInfo(contentType, result);
+                        return;
+                    }
+
                     //检查物设备节点
                     List<Item> items = ItemController.MQTTgetAllItemNode();
                     for(int i = 0; i < items.size(); ++i){
                         Item item = items.get(i);
                         if((item.getManagerName() + item.getName()).equals(nodeName)){
                             //find the item
+                            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点为本节点下的物设备");
                             Map<String, Object> map = new HashMap<String, Object>();
                             map.put("物设备",item);
                             JSONObject result = new JSONObject(map);
                             MQTTController.sendDebugInfo(contentType, result);
+                            return;
                         }
                     }
                     //检查物关节点
@@ -87,15 +101,18 @@ public class LiveClientCallBack implements MqttCallback {
                         ItemManager itemManager = itemManagers.get(i);
                         if(itemManager.getName().equals(nodeName)){
                             //find the itemManager
+                            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点为本节点下的物关");
                             Map<String, Object> map = new HashMap<String, Object>();
                             map.put("物关",itemManager);
                             JSONObject result = new JSONObject(map);
                             MQTTController.sendDebugInfo(contentType, result);
+                            return;
                         }
                         else{
                             //判断是否是该子物关的下一层
                             if(nodeName.contains(itemManager.getName())){
                                 //名称包含，说明在该子物关的下一层,对该子物关进行查询
+                                System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点是本节点下的物关下的子节点");
                                 String sourceManager = "调试工具";
                                 String sourceName = "调试工具";
                                 String targetManager = itemManager.getName();
@@ -113,14 +130,17 @@ public class LiveClientCallBack implements MqttCallback {
                                 messageMap.put("coding standard","utf8");
                                 JSONObject sendJson = new JSONObject(messageMap);
                                 MQTTController.sendDebugInfo(contentType, sendJson);
+                                return;
                             }
                         }
                     }
                     //地址在本节点下，但是数据库不存在内容，所以返回空
+                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-未搜索到对应节点");
                     MQTTController.sendDebugInfo(contentType, null);
                 }
                 else{
                     //不是本物关下的节点，对上层进行搜索
+                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点在本节点上层");
                     String sourceManager = "调试工具";
                     String sourceName = "调试工具";
                     String targetManager = Constants.parentAddress;

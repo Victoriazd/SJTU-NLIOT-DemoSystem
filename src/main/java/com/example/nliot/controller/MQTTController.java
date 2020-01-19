@@ -70,6 +70,18 @@ public class MQTTController {
     //请求获取某一物关下的全部节点信息（包括全部的物和物关）
     @RequestMapping(path = "/getNode/{ItemManagerName}", method = RequestMethod.GET)
     public String getManagerNode(@PathVariable String ItemManagerName) throws InterruptedException, UnsupportedEncodingException, MqttException {
+
+        if(ItemManagerName.equals(Constants.physicalAddress)){
+            //就是查询本物关下的某个节点信息
+            List<Item> itemList = ItemController.MQTTgetAllItemNode();
+            List<ItemManager> itemManagerList = ItemManagerController.MQTTgetAllItemManagerNode();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("物设备",itemList);
+            map.put("物关",itemManagerList);
+            JSONObject result = new JSONObject(map);
+            return result.toJSONString();
+        }
+
         String sourceManager = "调试工具";
         String sourceName = "调试工具";
         String targetManager = ItemManagerName;
@@ -97,6 +109,18 @@ public class MQTTController {
     //请求获取某一物关下的某个节点信息
     @RequestMapping(path = "/getNode/{ItemManagerName}/{nodeName}", method = RequestMethod.GET)
     public String getNodeByName(@PathVariable String ItemManagerName, @PathVariable String nodeName) throws InterruptedException, UnsupportedEncodingException, MqttException {
+
+        if(ItemManagerName.equals(Constants.physicalAddress)){
+            //就是查询本物关下的某个节点信息
+            Item item = ItemController.MQTTgetOneItemNode(nodeName);
+            ItemManager itemManager = ItemManagerController.MQTTgetOneItemManagerNode(nodeName);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("物设备",item);
+            map.put("物关",itemManager);
+            JSONObject result = new JSONObject(map);
+            return result.toJSONString();
+        }
+
         String sourceManager = "调试工具";
         String sourceName = "调试工具";
         String targetManager = ItemManagerName;
@@ -127,6 +151,17 @@ public class MQTTController {
 
         //判断是否是本物关下的节点
         if(nodeName.contains(Constants.physicalAddress)){
+            if(nodeName.equals(Constants.physicalAddress)){
+                System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点就是本物关节点");
+                List<Item> itemList = ItemController.MQTTgetAllItemNode();
+                List<ItemManager> itemManagerList = ItemManagerController.MQTTgetAllItemManagerNode();
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("物设备",itemList);
+                map.put("物关",itemManagerList);
+                JSONObject result = new JSONObject(map);
+                return result.toJSONString();
+            }
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点在本物关下");
             //查询的节点名字包含当前物关名称，说明该节点在本物关下
             //检查物设备节点
             List<Item> items = ItemController.MQTTgetAllItemNode();
@@ -134,6 +169,7 @@ public class MQTTController {
                 Item item = items.get(i);
                 if((item.getManagerName() + item.getName()).equals(nodeName)){
                     //find the item
+                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点是本节点下的物设备");
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("物设备",item);
                     JSONObject result = new JSONObject(map);
@@ -146,6 +182,7 @@ public class MQTTController {
                 ItemManager itemManager = itemManagers.get(i);
                 if(itemManager.getName().equals(nodeName)){
                     //find the itemManager
+                    System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点是本节点下的物关");
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("物关",itemManager);
                     JSONObject result = new JSONObject(map);
@@ -155,6 +192,7 @@ public class MQTTController {
                     //判断是否是该子物关的下一层
                     if(nodeName.contains(itemManager.getName())){
                         //名称包含，说明在该子物关的下一层,对该子物关进行查询
+                        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点是本节点下的物关下的子节点");
                         String sourceManager = "调试工具";
                         String sourceName = "调试工具";
                         String targetManager = itemManager.getName();
@@ -180,10 +218,12 @@ public class MQTTController {
                 }
             }
             //地址在本节点下，但是数据库不存在内容，所以返回空
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-没有找到搜索的节点消息");
             return "";
         }
         else{
             //不是本物关下的节点，对上层进行搜索
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点在本节点的上层");
             String sourceManager = "调试工具";
             String sourceName = "调试工具";
             String targetManager = Constants.parentAddress;
