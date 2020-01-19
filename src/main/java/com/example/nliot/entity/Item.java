@@ -21,6 +21,12 @@ public class Item {
     private String url;
     @Property(name = "上级物关名")
     private String managerName;
+    @Property(name = "注册时间")
+    private String createTime;
+    @Property(name = "修改时间")
+    private String modifyTime;
+    @Property(name = "所有人")
+    private String user;
 
     public Item() {
     }
@@ -65,5 +71,29 @@ public class Item {
 
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+
+    public String getCreateTime(){
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime){
+        this.createTime = createTime;
+    }
+
+    public String getModifyTime(){
+        return modifyTime;
+    }
+
+    public void setModifyTime(String modifyTime){
+        this.modifyTime = modifyTime;
+    }
+
+    public String getUser(){
+        return user;
+    }
+
+    public void setUser(String user){
+        this.user = user;
     }
 }

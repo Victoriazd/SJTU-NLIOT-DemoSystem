@@ -1,6 +1,7 @@
 package com.example.nliot.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.nliot.Constants;
 import com.example.nliot.entity.Item;
 import com.example.nliot.entity.ItemManager;
 import com.example.nliot.service.ItemManagerService;
@@ -16,6 +17,7 @@ import java.util.Map;
 @RestController
 public class ItemManagerController {
     private static ItemManagerService testManagerService;
+
 
     @Autowired
     public ItemManagerController(ItemManagerService testManagerService) {
@@ -46,21 +48,20 @@ public class ItemManagerController {
 
     @RequestMapping(path = "/getItemManagerNodeByName/{name}", method = RequestMethod.GET)
     public String SearchNodeList(@PathVariable String name) {
-        name = "上海市闵行区东川路800号软件学院3503";
-//        List<ItemManager> itemManagers = testManagerService.getChildItemManagerNodeByName(name);
+        List<ItemManager> itemManagers = testManagerService.getChildItemManagerNodeByName(name);
         List<Item> items = testManagerService.getChildItemNodeByName(name);
         Map<String, Object> map = new HashMap<String, Object>();
-//        if (itemManagers.size() == 0){
-//            ItemManager 空 = new ItemManager();
-//            空.setName("无搜索结果");
-//            itemManagers.add(空);
-//        }
+        if (itemManagers.size() == 0){
+            ItemManager 空 = new ItemManager();
+            空.setName("无搜索结果");
+            itemManagers.add(空);
+        }
         if (items.size() == 0){
             Item 空 = new Item();
             空.setName("无搜索结果");
             items.add(空);
         }
-//        map.put("itemManagers",itemManagers);
+        map.put("itemManagers",itemManagers);
         map.put("items",items);
         JSONObject json = new JSONObject(map);
         String res = json.toString();

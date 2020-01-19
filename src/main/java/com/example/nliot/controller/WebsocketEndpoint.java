@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -60,6 +63,12 @@ public class WebsocketEndpoint {
         String Addr = jsonObject.getString("物功能表");
         String Name = jsonObject.getString("物名");
         String Type = jsonObject.getString("物类型");
+        String User = jsonObject.getString("所有人");
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = format.format(date);
+        String CreateTime = str;
+        String ModifyTime = str;
         sessionMap.get(id).setDeviceName(Name);
         if(Addr != null && Name != null && Type != null && (!Addr.equals("")) && (!Name.equals("")) && (!Type.equals(""))){
             //符合规定的信息
@@ -68,6 +77,9 @@ public class WebsocketEndpoint {
             item.setManagerName(Constants.physicalAddress);
             item.setUrl(Addr);
             item.setType(Type);
+            item.setUser(User);
+            item.setCreateTime(CreateTime);
+            item.setModifyTime(ModifyTime);
             ItemService service = applicationContext.getBean(ItemService.class);
             service.deleteItemNode(Name);
             service.addItemNode(item);

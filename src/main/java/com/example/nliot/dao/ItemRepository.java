@@ -11,8 +11,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ItemRepository extends GraphRepository<Item> {
-    @Query("create (n:物设备{物名:{name},上级物关名:{managerName},物功能表:{url},物类型:{type}})")
-    Void addItemNode(@Param("name") String name, @Param("managerName")String address, @Param("url")String ip, @Param("type")String type);
+    @Query("create (n:物设备{物名:{name},上级物关名:{managerName},物功能表:{url},物类型:{type},所有人:{user},注册时间:{createTime},修改时间:{modifyTime}})")
+    Void addItemNode(@Param("name") String name, @Param("managerName")String address, @Param("url")String ip, @Param("type")String type,
+                     @Param("user")String user,@Param("createTime")String createTime,@Param("modifyTime")String modifyTime);
 
     @Query("MATCH (n:物设备) RETURN n ")
     List<Item> getItemNodeList();
