@@ -69,6 +69,18 @@ public class LiveClientCallBack implements MqttCallback {
                 //判断是否是本物关下的节点
                 if(nodeName.contains(Constants.physicalAddress)){
                     //查询的节点名字包含当前物关名称，说明该节点在本物关下
+                    if(nodeName.equals(Constants.physicalAddress)){
+                        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXX-搜索节点就是本物关节点");
+                        List<Item> itemList = ItemController.MQTTgetAllItemNode();
+                        List<ItemManager> itemManagerList = ItemManagerController.MQTTgetAllItemManagerNode();
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put("物设备",itemList);
+                        map.put("物关",itemManagerList);
+                        JSONObject result = new JSONObject(map);
+                        MQTTController.sendDebugInfo(contentType, result);
+                        return;
+                    }
+
                     //检查物设备节点
                     List<Item> items = ItemController.MQTTgetAllItemNode();
                     for(int i = 0; i < items.size(); ++i){
@@ -80,6 +92,7 @@ public class LiveClientCallBack implements MqttCallback {
                             map.put("物设备",item);
                             JSONObject result = new JSONObject(map);
                             MQTTController.sendDebugInfo(contentType, result);
+                            return;
                         }
                     }
                     //检查物关节点
@@ -93,6 +106,7 @@ public class LiveClientCallBack implements MqttCallback {
                             map.put("物关",itemManager);
                             JSONObject result = new JSONObject(map);
                             MQTTController.sendDebugInfo(contentType, result);
+                            return;
                         }
                         else{
                             //判断是否是该子物关的下一层
@@ -116,6 +130,7 @@ public class LiveClientCallBack implements MqttCallback {
                                 messageMap.put("coding standard","utf8");
                                 JSONObject sendJson = new JSONObject(messageMap);
                                 MQTTController.sendDebugInfo(contentType, sendJson);
+                                return;
                             }
                         }
                     }
