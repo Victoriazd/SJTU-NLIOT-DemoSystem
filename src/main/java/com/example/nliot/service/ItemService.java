@@ -23,7 +23,7 @@ public class ItemService {
     }
 
     public void addItemNode(Item item){
-        itemRepository.addItemNode(item.getName(),item.getManagerName(),item.getUrl(), item.getType());
+        itemRepository.addItemNode(item.getName(),item.getManagerName(),item.getUrl(), item.getType(), item.getUser(),item.getCreateTime(),item.getModifyTime());
     }
 
 
