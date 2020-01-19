@@ -12,7 +12,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
  *
  */
 public class LiveClientMQTT {
-    public static final String HOST = "tcp://0.0.0.0:1883";
+    public static final String HOST = Constants.mqttUrl;
     public static final String TOPIC1 = "pos_message_all";
     private static final String clientid = Constants.physicalAddress;
     private MqttClient client;
